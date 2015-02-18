@@ -57,62 +57,62 @@
 @implementation WPXMLRPCDecoderDelegate
 
 - (id)initWithParent:(WPXMLRPCDecoderDelegate *)parent {
-    self = [super init];
-    if (self) {
-        myParent = parent;
-        myChildren = [[NSMutableArray alloc] initWithCapacity:1];
-        myElementType = WPXMLRPCElementTypeString;
-        myElementKey = nil;
-        myElementValue = [[NSMutableString alloc] init];
-    }
-    
-    return self;
+	self = [super init];
+	if (self) {
+		myParent = parent;
+		myChildren = [[NSMutableArray alloc] initWithCapacity:1];
+		myElementType = WPXMLRPCElementTypeString;
+		myElementKey = nil;
+		myElementValue = [[NSMutableString alloc] init];
+	}
+	
+	return self;
 }
 
 #pragma mark -
 
 - (void)setParent:(WPXMLRPCDecoderDelegate *)parent {
-    
-    
-    myParent = parent;
+	
+	
+	myParent = parent;
 }
 
 - (WPXMLRPCDecoderDelegate *)parent {
-    return myParent;
+	return myParent;
 }
 
 #pragma mark -
 
 - (void)setElementType:(WPXMLRPCElementType)elementType {
-    myElementType = elementType;
+	myElementType = elementType;
 }
 
 - (WPXMLRPCElementType)elementType {
-    return myElementType;
+	return myElementType;
 }
 
 #pragma mark -
 
 - (void)setElementKey:(NSString *)elementKey {
-    
-    
-    myElementKey = elementKey;
+	
+	
+	myElementKey = elementKey;
 }
 
 - (NSString *)elementKey {
-    return myElementKey;
+	return myElementKey;
 }
 
 #pragma mark -
 
 - (void)setElementValue:(id)elementValue {
-    
-    
-    myElementValue = elementValue;
+	
+	
+	myElementValue = elementValue;
 }
 
 - (id)elementValue {
-    return myElementValue;
+	return myElementValue;
 }
 
 #pragma mark -
@@ -125,121 +125,121 @@
 @implementation WPXMLRPCDecoderDelegate (NSXMLParserDelegate)
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)element namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributes {
-    if ([element isEqualToString:@"value"] || [element isEqualToString:@"member"] || [element isEqualToString:@"name"]) {
-        WPXMLRPCDecoderDelegate *parserDelegate = [[WPXMLRPCDecoderDelegate alloc] initWithParent:self];
-        
-        if ([element isEqualToString:@"member"]) {
-            [parserDelegate setElementType:WPXMLRPCElementTypeMember];
-        } else if ([element isEqualToString:@"name"]) {
-            [parserDelegate setElementType:WPXMLRPCElementTypeName];
-        }
-        
-        [myChildren addObject:parserDelegate];
-        
-        [parser setDelegate:parserDelegate];
-        
-        
-        return;
-    }
-    
-    if ([element isEqualToString:@"array"] || [element isEqualToString:@"params"]) {
-        NSMutableArray *array = [[NSMutableArray alloc] init];
-        
-        [self setElementValue:array];
-        
-        
-        [self setElementType:WPXMLRPCElementTypeArray];
-    } else if ([element isEqualToString:@"struct"]) {
-        NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-        
-        [self setElementValue:dictionary];
-        
-        
-        [self setElementType:WPXMLRPCElementTypeDictionary];
-    } else if ([element isEqualToString:@"int"] || [element isEqualToString:@"i4"]) {
-        [self setElementType:WPXMLRPCElementTypeInteger];
-    } else if ([element isEqualToString:@"double"]) {
-        [self setElementType:WPXMLRPCElementTypeDouble];
-    } else if ([element isEqualToString:@"boolean"]) {
-        [self setElementType:WPXMLRPCElementTypeBoolean];
-    } else if ([element isEqualToString:@"string"]) {
-        [self setElementType:WPXMLRPCElementTypeString];
-    } else if ([element isEqualToString:@"dateTime.iso8601"]) {
-        [self setElementType:WPXMLRPCElementTypeDate];
-    } else if ([element isEqualToString:@"base64"]) {
-        [self setElementType:WPXMLRPCElementTypeData];
-    }
+	if ([element isEqualToString:@"value"] || [element isEqualToString:@"member"] || [element isEqualToString:@"name"]) {
+		WPXMLRPCDecoderDelegate *parserDelegate = [[WPXMLRPCDecoderDelegate alloc] initWithParent:self];
+		
+		if ([element isEqualToString:@"member"]) {
+			[parserDelegate setElementType:WPXMLRPCElementTypeMember];
+		} else if ([element isEqualToString:@"name"]) {
+			[parserDelegate setElementType:WPXMLRPCElementTypeName];
+		}
+		
+		[myChildren addObject:parserDelegate];
+		
+		[parser setDelegate:parserDelegate];
+		
+		
+		return;
+	}
+	
+	if ([element isEqualToString:@"array"] || [element isEqualToString:@"params"]) {
+		NSMutableArray *array = [[NSMutableArray alloc] init];
+		
+		[self setElementValue:array];
+		
+		
+		[self setElementType:WPXMLRPCElementTypeArray];
+	} else if ([element isEqualToString:@"struct"]) {
+		NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+		
+		[self setElementValue:dictionary];
+		
+		
+		[self setElementType:WPXMLRPCElementTypeDictionary];
+	} else if ([element isEqualToString:@"int"] || [element isEqualToString:@"i4"]) {
+		[self setElementType:WPXMLRPCElementTypeInteger];
+	} else if ([element isEqualToString:@"double"]) {
+		[self setElementType:WPXMLRPCElementTypeDouble];
+	} else if ([element isEqualToString:@"boolean"]) {
+		[self setElementType:WPXMLRPCElementTypeBoolean];
+	} else if ([element isEqualToString:@"string"]) {
+		[self setElementType:WPXMLRPCElementTypeString];
+	} else if ([element isEqualToString:@"dateTime.iso8601"]) {
+		[self setElementType:WPXMLRPCElementTypeDate];
+	} else if ([element isEqualToString:@"base64"]) {
+		[self setElementType:WPXMLRPCElementTypeData];
+	}
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)element namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName {
-    if ([element isEqualToString:@"value"] || [element isEqualToString:@"member"] || [element isEqualToString:@"name"]) {
-        NSString *elementValue = nil;
-        
-        if ((myElementType != WPXMLRPCElementTypeArray) && ![self isDictionaryElementType:myElementType]) {
-            elementValue = [self parseString:myElementValue];
-            
-            
-            myElementValue = nil;
-        }
-        
-        switch (myElementType) {
-            case WPXMLRPCElementTypeInteger:
-                myElementValue = [self parseInteger:elementValue];
-                
-                
-                break;
-            case WPXMLRPCElementTypeDouble:
-                myElementValue = [self parseDouble:elementValue];
-                
-                
-                break;
-            case WPXMLRPCElementTypeBoolean:
-                myElementValue = [self parseBoolean:elementValue];
-                
-                
-                break;
-            case WPXMLRPCElementTypeString:
-            case WPXMLRPCElementTypeName:
-                myElementValue = elementValue;
-                
-                
-                break;
-            case WPXMLRPCElementTypeDate:
-                myElementValue = [self parseDate:elementValue];
-                
-                
-                break;
-            case WPXMLRPCElementTypeData:
-                myElementValue = [self parseData:elementValue];
-                
-                
-                break;
-            default:
-                break;
-        }
-        
-        if (myParent && myElementValue) {
-            [self addElementValueToParent];
-        }
-        
-        [parser setDelegate:myParent];
-    }
+	if ([element isEqualToString:@"value"] || [element isEqualToString:@"member"] || [element isEqualToString:@"name"]) {
+		NSString *elementValue = nil;
+		
+		if ((myElementType != WPXMLRPCElementTypeArray) && ![self isDictionaryElementType:myElementType]) {
+			elementValue = [self parseString:myElementValue];
+			
+			
+			myElementValue = nil;
+		}
+		
+		switch (myElementType) {
+			case WPXMLRPCElementTypeInteger:
+				myElementValue = [self parseInteger:elementValue];
+				
+				
+				break;
+			case WPXMLRPCElementTypeDouble:
+				myElementValue = [self parseDouble:elementValue];
+				
+				
+				break;
+			case WPXMLRPCElementTypeBoolean:
+				myElementValue = [self parseBoolean:elementValue];
+				
+				
+				break;
+			case WPXMLRPCElementTypeString:
+			case WPXMLRPCElementTypeName:
+				myElementValue = elementValue;
+				
+				
+				break;
+			case WPXMLRPCElementTypeDate:
+				myElementValue = [self parseDate:elementValue];
+				
+				
+				break;
+			case WPXMLRPCElementTypeData:
+				myElementValue = [self parseData:elementValue];
+				
+				
+				break;
+			default:
+				break;
+		}
+		
+		if (myParent && myElementValue) {
+			[self addElementValueToParent];
+		}
+		
+		[parser setDelegate:myParent];
+	}
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
-    if ((myElementType == WPXMLRPCElementTypeArray) || [self isDictionaryElementType:myElementType]) {
-        return;
-    }
-    
-    if (!myElementValue) {
-        myElementValue = [[NSMutableString alloc] initWithString:string];
-    } else {
-        [myElementValue appendString:string];
-    }
+	if ((myElementType == WPXMLRPCElementTypeArray) || [self isDictionaryElementType:myElementType]) {
+		return;
+	}
+	
+	if (!myElementValue) {
+		myElementValue = [[NSMutableString alloc] initWithString:string];
+	} else {
+		[myElementValue appendString:string];
+	}
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    [parser abortParsing];
+	[parser abortParsing];
 }
 
 @end
@@ -249,104 +249,109 @@
 @implementation WPXMLRPCDecoderDelegate (WPXMLRPCEventBasedParserDelegatePrivate)
 
 - (BOOL)isDictionaryElementType:(WPXMLRPCElementType)elementType {
-    if ((myElementType == WPXMLRPCElementTypeDictionary) || (myElementType == WPXMLRPCElementTypeMember)) {
-        return YES;
-    }
-    
-    return NO;
+	if ((myElementType == WPXMLRPCElementTypeDictionary) || (myElementType == WPXMLRPCElementTypeMember)) {
+		return YES;
+	}
+	
+	return NO;
 }
 
 #pragma mark -
 
 - (void)addElementValueToParent {
-    id parentElementValue = [myParent elementValue];
-    
-    switch ([myParent elementType]) {
-        case WPXMLRPCElementTypeArray:
-            [parentElementValue addObject:myElementValue];
-            
-            break;
-        case WPXMLRPCElementTypeDictionary:
-            if ([myElementValue isEqual:[NSNull null]]) {
-                [parentElementValue removeObjectForKey:myElementKey];
-            } else {
-                [parentElementValue setObject:myElementValue forKey:myElementKey];
-            }
-            
-            break;
-        case WPXMLRPCElementTypeMember:
-            if (myElementType == WPXMLRPCElementTypeName) {
-                [myParent setElementKey:myElementValue];
-            } else {
-                [myParent setElementValue:myElementValue];
-            }
-            
-            break;
-        default:
-            break;
-    }
+	id parentElementValue = [myParent elementValue];
+	
+	switch ([myParent elementType]) {
+		case WPXMLRPCElementTypeArray:
+			[parentElementValue addObject:myElementValue];
+			
+			break;
+		case WPXMLRPCElementTypeDictionary:
+			if ([myElementValue isEqual:[NSNull null]]) {
+				[parentElementValue removeObjectForKey:myElementKey];
+			} else {
+				[parentElementValue setObject:myElementValue forKey:myElementKey];
+			}
+			
+			break;
+		case WPXMLRPCElementTypeMember:
+			if (myElementType == WPXMLRPCElementTypeName) {
+				[myParent setElementKey:myElementValue];
+			} else {
+				[myParent setElementValue:myElementValue];
+			}
+			
+			break;
+		default:
+			break;
+	}
 }
 
 #pragma mark -
 
 - (NSDate *)parseDateString:(NSString *)dateString withFormat:(NSString *)format {
-    // Set the local to POSIX format so changing date formats on the device doesn't affect the format being passed in
-    // Since we're assuming GMT the timeZone should be set but this currently breaks WordPress for iOS so leaving for now
-    NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.locale = enUSPOSIXLocale;
-    // Forcing to GMT time zone to prevent issues with converting from/to time zones
-    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
-
-    NSDate *result = nil;
-    
-    [dateFormatter setDateFormat:format];
-    
-    result = [dateFormatter dateFromString:dateString];
-    
-    return result;
+	// Set the local to POSIX format so changing date formats on the device doesn't affect the format being passed in
+	// Since we're assuming GMT the timeZone should be set but this currently breaks WordPress for iOS so leaving for now
+	NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	dateFormatter.locale = enUSPOSIXLocale;
+	// Forcing to GMT time zone to prevent issues with converting from/to time zones
+	dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
+	
+	NSDate *result = nil;
+	
+	[dateFormatter setDateFormat:format];
+	
+	result = [dateFormatter dateFromString:dateString];
+	
+	return result;
 }
 
 #pragma mark -
 
 - (NSNumber *)parseInteger:(NSString *)value {
-    return [NSNumber numberWithInteger:[value integerValue]];
+	return [NSNumber numberWithInteger:[value integerValue]];
 }
 
 - (NSNumber *)parseDouble:(NSString *)value {
-    return [NSNumber numberWithDouble:[value doubleValue]];
+	return [NSNumber numberWithDouble:[value doubleValue]];
 }
 
 - (NSNumber *)parseBoolean:(NSString *)value {
-    if ([value isEqualToString:@"1"]) {
-        return [NSNumber numberWithBool:YES];
-    }
-    
-    return [NSNumber numberWithBool:NO];
+	if ([value isEqualToString:@"1"]) {
+		return [NSNumber numberWithBool:YES];
+	}
+	
+	return [NSNumber numberWithBool:NO];
 }
 
 - (NSString *)parseString:(NSString *)value {
-    return [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	return [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (NSDate *)parseDate:(NSString *)value {
-    NSDate *result = nil;
-    
-    result = [self parseDateString:value withFormat:@"yyyyMMdd'T'HH:mm:ss"];
-    
-    if (!result) {
-        result = [self parseDateString:value withFormat:@"yyyy'-'MM'-'dd'T'HH:mm:ss"];
-    }
-    
-    if (!result) {
-        result = (NSDate *)[NSNull null];
-    }
-
-    return result;
+	NSDate *result = nil;
+	
+	result = [self parseDateString:value withFormat:@"yyyyMMdd'T'HH:mm:ss'Z'"];
+	
+	if (!result)
+	{
+		result = [self parseDateString:value withFormat:@"yyyyMMdd'T'HH:mm:ss"];
+	}
+	
+	if (!result) {
+		result = [self parseDateString:value withFormat:@"yyyy'-'MM'-'dd'T'HH:mm:ss"];
+	}
+	
+	if (!result) {
+		result = (NSDate *)[NSNull null];
+	}
+	
+	return result;
 }
 
 - (NSData *)parseData:(NSString *)value {
-    return [WPBase64Utils decodeString:value];
+	return [WPBase64Utils decodeString:value];
 }
 
 @end
