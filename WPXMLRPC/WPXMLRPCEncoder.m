@@ -37,6 +37,12 @@
     NSString *_faultString;
 }
 
+-(id)init
+{
+    self = [super init];
+    return self;
+}
+
 - (id)initWithMethod:(NSString *)method andParameters:(NSArray *)parameters {
     self = [super init];
     if (self) {
